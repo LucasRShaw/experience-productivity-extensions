@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Ellucian Company L.P. and its affiliates.
+// Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
 import { PublicClientApplication } from '@azure/msal-browser';
 import { Client } from '@microsoft/microsoft-graph-client';
@@ -14,9 +14,7 @@ const microsoftScopes = [
     'mail.read',
     'mail.read.shared',
     'user.read',
-    'user.readbasic.all',
-    'calendars.read',
-    'calendars.read.shared'
+    'user.readbasic.all'
 ];
 
 export function authorityUrl(tenantId) {
