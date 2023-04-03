@@ -2,7 +2,7 @@
 
 module.exports = {
     name: 'Microsoft Productivity Tools',
-    publisher: 'Northwest College',
+    publisher: '',
     configuration: {
         client: [{
             key: 'aadRedirectUrl',
