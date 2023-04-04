@@ -81,14 +81,11 @@ export function MicrosoftCalendarProvider({children}) {
                 .header('Prefer', 'IdType="ImmutableId"')
                 .get();
 
-                // ToDo: implement getCalendarEventBaseColor() to get the settings cookie value associated with the Calendar Event Base Color
-                // const baseColor = getCalendarEventBaseColor();
                 const { value: events } = response;
                 // console.log("MSGraph Events: ", events);
                 const acceptedColor = getColor('accepted');
                 const tentativeColor = getColor('tentativelyAccepted');
                 const defaultColor = getColor('default');
-
 
                 // transform to what the UI needs
                 // https://docs.microsoft.com/en-us/graph/api/resources/event?view=graph-rest-1.0
@@ -103,15 +100,9 @@ export function MicrosoftCalendarProvider({children}) {
                         },
                         id: eventId,
                         isRead,
-                        isDraft,
                         isCancelled,
-                        recurrence,
                         hasAttachments: hasAttachment,
-                        importance,
                         isAllDay,
-                        showAs,
-                        onlineMeetingUrl,
-                        isOnlineMeeting,
                         responseStatus: {
                             response: myResponse
                         },
@@ -124,10 +115,7 @@ export function MicrosoftCalendarProvider({children}) {
                             timeZone: endTZ
                         },
                         location: {
-                            displayName: locationName,
-                            locationType,
-                            uniqueId,
-                            uniqueIdType
+                            displayName: locationName
                         },
                         subject,
                         webLink

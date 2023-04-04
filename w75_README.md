@@ -14,6 +14,48 @@ Code for the W75 Microsoft Outlook Card has a `w75_` prefix, and can be used fro
 3. Add the `OUTLOOK_MAX_MESSAGE_COUNT` and `OUTLOOK_FETCH_UNREAD_ONLY` variables to your `.env` file and configure them as desired (defaults can be found in the `w75_sample.env`).  The defaults are 10 for `OUTLOOK_MAX_MESSAGE_COUNT` and true for `OUTLOOK_FETCH_UNREAD_ONLY` respectively.
 4. Change w75_microsoft-extension.js and replace the publisher of "`Your Institution`" with your institution name and in the card information (`title` and `description`), replace `{Institution Acronym}` with your institution's acronym - e.g. replace Your Institution with `My College` and replace `{Institution Acronym}` with `MyC`.  Optionally, change the card `type` to `{YOURINSTCODE}_OutlookCard` (use your institution code (`W##`) instead of `W75`).
 
+You may need to remove your `package-lock.json` if you have issues with it when building the project.  You can also delete your `node_modules` directory to start a clean build.
+
+
+### Package Version Updates:
+Several packages were updated in the package.json to their latest applicable versions as of the writing of this document:
+
+Dependencies were changed as such:
+- Modifications to `dependencies`:
+    - Upgraded `@azure/msal-browser` to `2.33.0`
+    - Upgraded `@microsoft/mgt-components` to `2.9.0`
+    - Upgraded `Wmicrosoft/microsoft-graph-client` to `3.0.5`
+    - Upgraded `react-intl` to `5.12.5` (also changed the code for `components\ReactIntlProviderWrapper.jsx` and `i18n\intlUtilty.js` to those used by the Ellucian SDK Examples for `Experience SDK v5.7.0`)
+    - Upgraded `sanitize-html` to `2.9.0`
+    - Added `@ellucian/ds-icons` (from Ellucian Path Design system) version `7.1.1` (older version was in Dev Dependencies)
+    - Added `@ellucian/experience-extension-utils` version `1.0.0` (replaces the experience-extension-hooks)
+    - Added `@ellucian/react-design-system` (Ellucian Path Design system) version `7.1.1` (older version was in Dev Dependencies)
+    - Added `date-fns-tz` version `2.0.0`
+    - Removed `moment` (replaced by `date-fns` in EESDK v 7.0)
+
+Dev dependencies also changed:
+ - Modifications to `devDependencies`:
+    - Upgraded `@ellucian/experience-extension` to `7.0.0`
+    - Upgraded `@babel/eslint-parser` to `7.18.2`
+    - Upgraded `@babel/plugin-transform-runtime` to `7.18.6`
+    - Upgraded `@babel/preset-env` to `7.18.6`
+    - Upgraded `@babel/preset-react` to `7.18.6`
+    - Upgraded `cross-env` to `7.0.3`
+    - Upgraded `dotenv-webpack` to `7.1.1`
+    - Upgraded `eslint` to `8.32.0`
+    - Upgraded `eslint-plugin-import` to `2.26.0`
+    - Upgraded `eslint-plugin-jsx-a11y` to `6.6.0`
+    - Upgraded `eslint-plugin-react` to `7.30.1"`
+    - Upgraded `webpack` to `5.76.1`
+    - Upgraded `webpack-cli` to `5.0.1`
+    - Upgraded `webpack-dev-server` to `4.11.1`
+    - Removed  `enzyme-adapter-react-16`
+    - Removed  `eslint-plugin-jest`
+    - Removed  `jest` 
+    - Removed  `jest-junit` 
+    - Removed  `expect` 
+
+
 ## Building the W75 Version of the Microsoft Outlook Card
 Once the above changes are in place, make sure your .env file is configured correctly for your target environment(s) and execute '`npm run w75_microsoft-start`' from the terminal in VS Code (or your commandline window) to start the continuous build-deploy mode or '`npm run w75_microsoft-build-{prod|dev}`' and '`npm run w75_microsoft-deploy-{prod|dev}`' to do a single build/deploy (e.g. execute '`npm run w75_microsoft-build-dev`' and then execute '`npm run w75_microsoft-deploy-dev`'). NOTE: when using '`npm run w75_microsoft-start`', you will need to kill the loop (e.g. with `Ctrl+C` then enter '`Y`' to terminate the batch job) and restart it if you make changes to the `.env` file.  Note that when using the `w75_microsoft` build scripts, all cards will be built together.  
 
