@@ -55,7 +55,6 @@ Dev dependencies also changed:
     - Removed  `jest-junit` 
     - Removed  `expect` 
 
-
 ## Building the W75 Version of the Microsoft Outlook Card
 Once the above changes are in place, make sure your .env file is configured correctly for your target environment(s) and execute '`npm run w75_microsoft-start`' from the terminal in VS Code (or your commandline window) to start the continuous build-deploy mode or '`npm run w75_microsoft-build-{prod|dev}`' and '`npm run w75_microsoft-deploy-{prod|dev}`' to do a single build/deploy (e.g. execute '`npm run w75_microsoft-build-dev`' and then execute '`npm run w75_microsoft-deploy-dev`'). NOTE: when using '`npm run w75_microsoft-start`', you will need to kill the loop (e.g. with `Ctrl+C` then enter '`Y`' to terminate the batch job) and restart it if you make changes to the `.env` file.  Note that when using the `w75_microsoft` build scripts, all cards will be built together.  
 
@@ -65,7 +64,7 @@ To build the Microcoft Outlook Card in isolation, you must use the `npm run w75_
 # <a name="w75-microsoft-onedrive-card"></a>W75 Microsoft OneDrive Card Notes
 This fork includes a W75 version of the Microsoft OneDrive Card that customizes the message on the login view to include information about allowing pop-ups or trying to Ctrl+Click on the Sign In button.  
 
-Notes: Like the W75 Microsoft Outlook Card, this card has its own npm build targets.  The W75 OneDrive card does not have any changes related to the `ALLOW_COMPOSE` feature of the Outlook and Calendar cards.
+Notes: Like the W75 Microsoft Outlook Card, the OneDrive card has its own npm build targets.  The W75 OneDrive card does not have any changes related to the `ALLOW_COMPOSE` feature of the Outlook and Calendar cards.
 
 ![](docs/images/w75_microsoft-onedrive-card-preview.png)
 
@@ -77,14 +76,22 @@ To build the Microcoft OneDrive Card in isolation, you must use the `npm run w75
 # <a name="w75-microsoft-outlook-calendar-card"></a>W75 Microsoft Outlook Calendar Card Notes
 This fork includes a prototype Calendar element that uses the Microsoft Graph API (using the same codebase as the Microsoft Outlook Card) to retrieve calendar events from the user's calendar for the next 7 days starting at midnight of the current day and display them in a list format.  Each event is linked to the URL of the event on the Outlook Calendar so the user may read the full body of the event and click any embedded links to online meetings.  The link makes use of the `OUTLOOK_USE_WEB_LINK` parameter The color scheme is based on the NWC Red color (HTML Color #A71000), where Accepted events (accepted or events where the user is the orgainizer) are highlighted in NWC Red, and Tentatively Accepted Events are highlighted in 18% lighter version of NWC Red (HTML Color #C7665C), while events that have not been accepted or are in a different status than Accepted (or Organizer) or Tentatively Accepted are highlighted with 36% lighter version of NWC Red (HTML Color #E6BCB8).  The 18% color difference stems from the observation that the 600 and 500 versions of the colors in the Ellucian Path Design System are 18% lighter (e.g. using [ShadowLord](https://noeldelgado.github.io/shadowlord/#a71000) with 18% differential). The W75 Microsoft Calendar card does not limit the number of events returned like the W75 Microsoft Outlook Card, but does have an arbitrary, explicit limit of `250` messages built into the Graph Query.
 
+As part of implementing this project, we brought it up to the current Ellucian SDK version (SDK v7.0.0 and Path Design v7.1.1 as of the writing of this document).  Part of this was replacing the use of moment.js with date-fns as well as updating dependencies.
+
 A new compose Calendar Event feature has been added, which is linked to the one for Email (turned on by the same `ALLOW_COMPOSE` option in the `.env` file).  This feature seems to work well for the online outlook calendar function, though when used on mobile devices, the tab opened to the online outlook does not close when the event has been saved, but rather reloads ready to create a new event.  This could be a useful feature if you need to enter many events at a time, but more likely will result in confusion by the user.  Screenshots below show the feature enabled, but like with mail this feature is disabled by default.
 
 ![](docs/images/w75_microsoft-calendar-card-preview.png)
 
-## Building the W75 Microsoft Outlook Calendar Card
-As part of implementing this project, we brought it up to the current Ellucian SDK version (SDK v7.0.0 and Path Design v7.1.1 as of the writing of this document).  Part of this was replacing the use of moment.js with date-fns as well as updating dependencies.
+## Additional Azure AD Application API Permissions Required
+The following permissions must be added to the Azure API Application Permissions to enable the W75 Calendar Card to gather your agenda.
 
+- Calendar.Read
+- Calendar.Read.Shared
+
+Add these in addition to the ones specified in the [README.md](README.md).
+
+
+## Building the W75 Microsoft Outlook Calendar Card
 Like the other cards, you may execute '`npm run w75_microsoft-start`' from the terminal in VS Code (or your commandline window) to start the continuous build-deploy mode or '`npm run w75_microsoft-build-{prod|dev}`' and '`npm run w75_microsoft-deploy-{prod|dev}`' to do a single build/deploy (e.g. execute '`npm run w75_microsoft-build-dev`' and then execute '`npm run w75_microsoft-deploy-dev`'). NOTE: when using '`npm run w75_microsoft-start`', you will need to kill the loop (e.g. with `Ctrl+C` then enter '`Y`' to terminate the batch job) and restart it if you make changes to the `.env` file.  Note that when using the `w75_microsoft` build scripts, all cards will be built together.  
 
-To build the Microcoft OneDrive Card in isolation, you must use the `npm run w75_calendar-build-{dev|prod}` and `npm run w75_calendar-deploy-{dev|prod}` scripts or the `npm run w75_calendar-build-{dev|prod}` or `npm run w75_calendar-start` for the continuous build mode (which must be halted with `Ctrl+C` and a `Y` confirmation).  
-
+To build the Microcoft Calendar Card in isolation, you must use the `npm run w75_calendar-build-{dev|prod}` and `npm run w75_calendar-deploy-{dev|prod}` scripts or the `npm run w75_calendar-build-{dev|prod}` or `npm run w75_calendar-start` for the continuous build mode (which must be halted with `Ctrl+C` and a `Y` confirmation).  

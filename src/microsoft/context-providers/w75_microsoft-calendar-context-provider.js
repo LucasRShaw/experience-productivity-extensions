@@ -87,6 +87,7 @@ export function MicrosoftCalendarProvider({children}) {
                 const tentativeColor = getColor('tentativelyAccepted');
                 const defaultColor = getColor('default');
 
+
                 // transform to what the UI needs
                 // https://docs.microsoft.com/en-us/graph/api/resources/event?view=graph-rest-1.0
                 const transformedEvents = events.map( event => {
@@ -101,8 +102,13 @@ export function MicrosoftCalendarProvider({children}) {
                         id: eventId,
                         isRead,
                         isCancelled,
+                        recurrence,
                         hasAttachments: hasAttachment,
+                        importance,
                         isAllDay,
+                        showAs,
+                        onlineMeetingUrl,
+                        isOnlineMeeting,
                         responseStatus: {
                             response: myResponse
                         },
@@ -115,7 +121,10 @@ export function MicrosoftCalendarProvider({children}) {
                             timeZone: endTZ
                         },
                         location: {
-                            displayName: locationName
+                            displayName: locationName,
+                            locationType,
+                            uniqueId,
+                            uniqueIdType
                         },
                         subject,
                         webLink
