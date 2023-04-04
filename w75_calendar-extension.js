@@ -37,11 +37,5 @@ module.exports = {
         title: 'NWC Outlook Calendar',
         displayCardType: 'NWC Outlook Calendar',
         description: 'This card displays Office 365 Calendar.'
-    },{
-        type: 'W75_OutlookCalendarEventCreatorCard',
-        source: './src/microsoft/cards/w75_OutlookCalendarEventCreatorCard',
-        title: 'NWC Outlook Calendar',
-        displayCardType: 'NWC Outlook Calendar',
-        description: 'This card displays Office 365 Calendar.'
     }]
 }
