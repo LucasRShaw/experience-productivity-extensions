@@ -58,7 +58,6 @@
     "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/8.8.0/umd/path_design_system_icons.tgz",
     "@ellucian/experience-extension-utils": "https://cdn.elluciancloud.com/assets/SDK/utils/1.0.0/ellucian-experience-extension-utils-1.0.0.tgz",
     "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/8.8.0/umd/path_design_system.tgz",
-    "@microsoft/mgt-components": "4.7.0",
     "@microsoft/microsoft-graph-client": "3.0.7",
     "classnames": "2.5.1",
     "date-fns": "4.4.0",
@@ -78,19 +77,19 @@
     "@babel/preset-react": "7.29.7",
     "@calm/eslint-plugin-react-intl": "1.4.1",
     "@ellucian/experience-extension": "https://cdn.elluciancloud.com/assets/SDK/8.5.0/ellucian-experience-extension-8.5.0.tgz",
-    "@eslint/js": "9.39.5",
     "babel-plugin-rewire": "1.2.0",
     "cross-env": "7.0.3",
     "dotenv": "8.6.0",
     "dotenv-webpack": "^9.0.0",
     "eslint": "9.39.5",
+    "@eslint/js": "9.39.5",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "webpack": "^5.111.1",
     "webpack-cli": "5.1.4",
-    "webpack-dev-server": "^6.0.0"
+    "webpack-dev-server": "^5.0.0"
   },
   "overrides": {
     "@ellucian/react-design-system": {
