@@ -1,13 +1,13 @@
 {
   "name": "productivity-tools-extensions",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Productivity Tools extensions",
   "main": "index.js",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.3.0"
+    "node": ">=24.13.0",
+    "npm": ">=11.6.0"
   },
   "scripts": {
     "lint": "npx eslint --ext .jsx,.js src",
@@ -54,47 +54,50 @@
     "w75_calendar-deploy-dev": "webpack --config w75_calendar-webpack.config.js --mode development --env verbose --env upload --env forceUpload"
   },
   "dependencies": {
-    "@azure/msal-browser": "2.33.0",
-    "@microsoft/mgt-components": "2.9.0",
-    "@microsoft/microsoft-graph-client": "3.0.5",
-    "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/7.1.1/umd/path_design_system_icons.tgz",
+    "@azure/msal-browser": "4.30.0",
+    "@ellucian/ds-icons": "https://cdn.elluciancloud.com/assets/EDS2/8.8.0/umd/path_design_system_icons.tgz",
     "@ellucian/experience-extension-utils": "https://cdn.elluciancloud.com/assets/SDK/utils/1.0.0/ellucian-experience-extension-utils-1.0.0.tgz",
-    "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/7.1.1/umd/path_design_system.tgz",
-    "classnames": "2.3.2",
-    "idb-keyval": "6.2.0",
-    "loglevel": "1.8.1",
-    "prop-types": "15.7.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-intl": "5.12.5",
+    "@ellucian/react-design-system": "https://cdn.elluciancloud.com/assets/EDS2/8.8.0/umd/path_design_system.tgz",
+    "@microsoft/mgt-components": "4.7.0",
+    "@microsoft/microsoft-graph-client": "3.0.7",
+    "classnames": "2.5.1",
+    "date-fns": "4.4.0",
+    "idb-keyval": "6.3.0",
+    "loglevel": "1.9.2",
+    "react": "19.0.3",
+    "react-dom": "19.0.3",
+    "react-intl": "7.1.11",
     "react-router-dom": "5.2.0",
-    "sanitize-html": "2.9.0",
+    "sanitize-html": "2.18.0",
     "string-template": "1.0.0",
-    "uuid": "8.3.2",
-    "date-fns-tz": "2.0.0"
-    
+    "uuid": "11.1.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.18.2",
-    "@babel/plugin-transform-runtime": "7.18.6",
-    "@babel/preset-env": "7.18.6",
-    "@babel/preset-react": "7.18.6",
+    "@babel/plugin-transform-runtime": "7.29.7",
+    "@babel/preset-env": "7.29.7",
+    "@babel/preset-react": "7.29.7",
     "@calm/eslint-plugin-react-intl": "1.4.1",
-    "@ellucian/experience-extension": "https://cdn.elluciancloud.com/assets/SDK/7.0.0/ellucian-experience-extension-7.0.0.tgz",    
+    "@ellucian/experience-extension": "https://cdn.elluciancloud.com/assets/SDK/8.5.0/ellucian-experience-extension-8.5.0.tgz",
+    "@eslint/js": "9.39.5",
     "babel-plugin-rewire": "1.2.0",
     "cross-env": "7.0.3",
     "dotenv": "8.6.0",
-    "dotenv-webpack": "7.1.1",
-    "eslint": "8.32.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jsx-a11y": "6.6.0",
-    "eslint-plugin-react": "7.30.1",
-    "webpack": "5.76.1",
-    "webpack-cli": "5.0.1",
-    "webpack-dev-server": "4.11.1"
+    "dotenv-webpack": "^9.0.0",
+    "eslint": "9.39.5",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "webpack": "^5.111.1",
+    "webpack-cli": "5.1.4",
+    "webpack-dev-server": "^6.0.0"
   },
   "overrides": {
-    "ua-parser-js": "0.7.33",
-    "webpack": "5.76.1"
+    "@ellucian/react-design-system": {
+      "@tanstack/react-virtual": "3.11.3"
+    },
+    "uuid": "11.1.1",
+    "react": "19.0.3",
+    "react-dom": "19.0.3"
   }
 }

@@ -1,5 +1,4 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
 export function prepareFiles(files, dateFormater, dateFormaterWithYear) {
     files?.map((file) => {
         const { lastModifyingUser, modifiedTime: fileModifiedTime } = file;

@@ -1,137 +1,38 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { Fragment, useEffect, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
 import classnames from 'classnames';
-
 import { Avatar, Divider, Illustration, IMAGES, TextLink, Tooltip, Typography } from '@ellucian/react-design-system/core';
 import { Icon } from '@ellucian/ds-icons/lib';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
-import {
-    colorBrandNeutral250,
-    colorBrandNeutral300,
-    colorTextNeutral600,
-    fontWeightBold,
-    fontWeightNormal,
-    spacing30,
-    spacing40
-} from '@ellucian/react-design-system/core/styles/tokens';
-
+import { colorBrandNeutral250, colorBrandNeutral300, colorTextNeutral600, fontWeightBold, fontWeightNormal, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 import { useExtensionControl } from '@ellucian/experience-extension-utils';
-
 import { useIntl } from '../context-hooks/card-context-hooks.js';
 import { useAuth } from '../context-hooks/auth-context-hooks';
 import { useMail } from '../context-hooks/mail-context-hooks';
-
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import NoEmail from './w75_NoEmail';
-
 import { pickAvatarColor } from '../util/mail.js';
 
 const styles = () => ({
-    card: {
-        flex: '1 0 auto',
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        padding: spacing40,
-        flexFlow: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        '& > *': {
-            marginBottom: spacing40
-        },
-        '& :last-child': {
-            marginBottom: '0px'
-        }
-    },
-    content: {
-        display: 'flex',
-        flexDirection: 'column',
-        marginLeft: spacing40,
-        marginRight: spacing40,
-        '& :first-child': {
-            paddingTop: '0px'
-        },
-        '& hr:last-of-type': {
-            display: 'none'
-        }
-    },
-    row: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingTop: spacing30,
-        paddingBottom: spacing30,
-        paddingLeft: spacing30,
-        paddingRight: spacing30,
-        '&:hover': {
-            backgroundColor: colorBrandNeutral250
-        }
-    },
-    avatar: {
-        color: colorTextNeutral600
-    },
-    messageDetailsBox: {
-        paddingLeft: spacing30,
-        width: 'calc(100% - 40px)',
-        flex: '1 1 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch'
-    },
-    messageFrom: {
-    },
-    fromBox: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    subjectBox: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    subjectLink: {
-        maxWidth: '100%',
-        padding: '0px'
-    },
-    subjectLinkUnread: {
-        fontWeight: fontWeightBold
-    },
+    card: { flex: '1 0 auto', width: '100%', height: '100%', display: 'flex', padding: spacing40, flexFlow: 'column', alignItems: 'center', justifyContent: 'center', '& > *': { marginBottom: spacing40 }, '& :last-child': { marginBottom: '0px' } },
+    content: { display: 'flex', flexDirection: 'column', marginLeft: spacing40, marginRight: spacing40, '& :first-child': { paddingTop: '0px' }, '& hr:last-of-type': { display: 'none' } },
+    row: { display: 'flex', alignItems: 'center', paddingTop: spacing30, paddingBottom: spacing30, paddingLeft: spacing30, paddingRight: spacing30, '&:hover': { backgroundColor: colorBrandNeutral250 } },
+    avatar: { color: colorTextNeutral600 },
+    messageDetailsBox: { paddingLeft: spacing30, width: 'calc(100% - 40px)', flex: '1 1 auto', display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
+    messageFrom: { },
+    fromBox: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+    subjectBox: { display: 'flex', alignItems: 'center' },
+    subjectLink: { maxWidth: '100%', padding: '0px' },
+    subjectLinkUnread: { fontWeight: fontWeightBold },
     subject: { },
-    attachment: {
-        flex: '1 0 auto',
-        maxWidth: spacing40,
-        marginLeft: spacing30
-    },
-    unread: {
-        fontWeight: fontWeightBold,
-        color: colorTextNeutral600
-    },
-    noWrap: {
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis'
-    },
-    fontWeightNormal: {
-        fontWeight: fontWeightNormal
-    },
-    divider: {
-        marginTop: '0px',
-        marginBottom: '0px',
-        backgroundColor: colorBrandNeutral300
-    },
-    logoutBox: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: spacing40,
-        marginBottom: spacing40
-    },
-    settings: {
-        marginTop: spacing40
-    }
+    attachment: { flex: '1 0 auto', maxWidth: spacing40, marginLeft: spacing30 },
+    unread: { fontWeight: fontWeightBold, color: colorTextNeutral600 },
+    noWrap: { overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
+    fontWeightNormal: { fontWeight: fontWeightNormal },
+    divider: { marginTop: '0px', marginBottom: '0px', backgroundColor: colorBrandNeutral300 },
+    logoutBox: { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: spacing40, marginBottom: spacing40 },
+    settings: { marginTop: spacing40 }
 });
 
 function Mail({ classes }) {
@@ -163,11 +64,11 @@ function Mail({ classes }) {
         } else if (mailState && mailState.error) {
             setDisplayState('error');
         }
-    }, [ authError, authState, loggedIn, mailError, mailState, messages ])
+    }, [ authError, authState, loggedIn, mailError, mailState, messages, intl, setErrorMessage ])
 
     useEffect(() => {
         setLoadingStatus(displayState === 'loading');
-    }, [displayState, mailState])
+    }, [displayState, mailState, setLoadingStatus])
 
     if (displayState === 'loaded') {
         if (messages && messages.length > 0) {
@@ -308,14 +209,9 @@ function Mail({ classes }) {
             </div>
         );
     } else {
-        // eslint-disable-next-line no-warning-comments
         // TODO add error case
         return null;
     }
 }
 
-Mail.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Mail);
+export default withStyles(Mail, styles, {name: 'Mail'});

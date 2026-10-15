@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // import { saffron600, safron400, saffron200, purple600, purple400, purple200, iris600, iris400, iris200, fountain600, fountain400, fountain200, meadow600, meadow400, meadow200, kiwi600, kiwi400, kiwi200, tangerine600, tangerine400, tangerine200 } from '@ellucian/react-design-system/core/styles/tokens';
-import PropTypes from 'prop-types';
-// eslint-disable-next-line camelcase
 import { unstable_batchedUpdates } from 'react-dom';
 
 import stringTemplate from 'string-template';
@@ -81,6 +80,8 @@ export function MicrosoftCalendarProvider({children}) {
                 .header('Prefer', 'IdType="ImmutableId"')
                 .get();
 
+                // ToDo: implement getCalendarEventBaseColor() to get the settings cookie value associated with the Calendar Event Base Color
+                // const baseColor = getCalendarEventBaseColor();
                 const { value: events } = response;
                 // console.log("MSGraph Events: ", events);
                 const acceptedColor = getColor('accepted');
@@ -101,6 +102,7 @@ export function MicrosoftCalendarProvider({children}) {
                         },
                         id: eventId,
                         isRead,
+                        isDraft,
                         isCancelled,
                         recurrence,
                         hasAttachments: hasAttachment,
@@ -214,7 +216,7 @@ export function MicrosoftCalendarProvider({children}) {
 
                                     if (responsePhoto) {
                                         // add it to the event
-                                        event.userPhotoUrl = URL.createObjectURL(responsePhoto);
+                                        event.userPhotoUrl = window.URL.createObjectURL(responsePhoto);
                                         userPhotos[fromEmail] = event.userPhotoUrl;
                                     }
                                     // triggers a context update
@@ -244,7 +246,7 @@ export function MicrosoftCalendarProvider({children}) {
                 }
             }
         }
-    }, [loggedIn, state])
+    }, [loggedIn, state, client, setLoggedIn, events, userPhotos])
 
     useEffect(() => {
         if (loggedIn && (state === 'load' || state === 'refresh')) {
@@ -269,7 +271,7 @@ export function MicrosoftCalendarProvider({children}) {
             if (!document.hidden) {
                 logger.debug('Microsoft calendar starting interval');
 
-                timerId = setInterval(() => {
+                timerId = window.setInterval(() => {
                     setState('refresh');
                 }, refreshInterval);
             }
@@ -278,7 +280,7 @@ export function MicrosoftCalendarProvider({children}) {
         function stopInterval() {
             if (timerId) {
                 logger.debug('Microsoft calendar stopping interval');
-                clearInterval(timerId)
+                window.clearInterval(timerId)
                 timerId = undefined;
             }
         }
@@ -301,7 +303,7 @@ export function MicrosoftCalendarProvider({children}) {
         return () => {
             document.removeEventListener('visibilitychange', visibilitychangeListener);
             if (timerId) {
-                clearInterval(timerId)
+                window.clearInterval(timerId)
             }
         }
     }, [loggedIn, setState]);
@@ -313,7 +315,7 @@ export function MicrosoftCalendarProvider({children}) {
             refresh: () => { setState('refresh') },
             state
         }
-    }, [ error, events, renderCount, state ]);
+    }, [ error, events, state ]);
 
     useEffect(() => {
         logger.debug('MicrosoftCalendarProvider mounted');
@@ -328,8 +330,4 @@ export function MicrosoftCalendarProvider({children}) {
             {children}
         </Context.Provider>
     )
-}
-
-MicrosoftCalendarProvider.propTypes = {
-    children: PropTypes.object.isRequired
 }

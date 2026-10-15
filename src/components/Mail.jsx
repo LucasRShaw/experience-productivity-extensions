@@ -1,34 +1,19 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
 /* eslint-disable jsx-a11y/alt-text */
-import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { Fragment, useEffect, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
 import classnames from 'classnames';
-
 import { Avatar, Divider, Illustration, IMAGES, TextLink, Tooltip, Typography } from '@ellucian/react-design-system/core';
 import { Icon } from '@ellucian/ds-icons/lib';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
-import {
-    colorBrandNeutral250,
-    colorBrandNeutral300,
-    colorTextNeutral600,
-    fontWeightBold,
-    fontWeightNormal,
-    spacing30,
-    spacing40
-} from '@ellucian/react-design-system/core/styles/tokens';
-
+import { colorBrandNeutral250, colorBrandNeutral300, colorTextNeutral600, fontWeightBold, fontWeightNormal, spacing30, spacing40 } from '@ellucian/react-design-system/core/styles/tokens';
 import { useExtensionControl } from '@ellucian/experience-extension-utils';
-
 import { useIntl } from '../context-hooks/card-context-hooks.js';
 import { useAuth } from '../context-hooks/auth-context-hooks';
 import { useMail } from '../context-hooks/mail-context-hooks';
-
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import NoEmail from './NoEmail';
-
 import { pickAvatarColor } from '../util/mail.js';
 
 const styles = () => ({
@@ -269,8 +254,4 @@ function Mail({ classes }) {
     }
 }
 
-Mail.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Mail);
+export default withStyles(Mail, styles, {name: 'Mail'});

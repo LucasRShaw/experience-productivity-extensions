@@ -1,11 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-// eslint-disable-next-line camelcase
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCardInfo, useUserInfo } from '@ellucian/experience-extension-utils';
 import { unstable_batchedUpdates } from 'react-dom';
 
 import stringTemplate from 'string-template';
-
-import { useUserInfo } from '@ellucian/experience-extension-utils';
 
 import { useAuth } from '../../context-hooks/auth-context-hooks';
 import { Context } from '../../context-hooks/mail-context-hooks';
@@ -32,11 +29,12 @@ export function MicrosoftMailProvider({children}) {
     const [messages, setMessages] = useState();
     const [userPhotos, setUserPhotos] = useState({});
     const [renderCount, setRenderCount] = useState(0);
-    const [maxMessageCount] = useState(defaultMaxMessageCount);
+    // const [maxMessageCount, setMaxMessageCount] = useState(defaultMaxMessageCount);
     const [messageCount, setMessageCount] = useState(0);
     const [unreadMessageCount, setUnreadMessageCount] = useState(0);
     const [fetchUnreadOnly, setFetchUnreadOnly] = useState(defaultFetchUnreadOnlyMessageCount);
     const [fetchUnreadOnlyLabel, setFetchUnreadOnlyLabel] = useState('');
+    const { configuration: { maxMessageCount } } = useCardInfo() || defaultMaxMessageCount;
 
     const dateFormater = useMemo(() => {
         return new Intl.DateTimeFormat(locale, { dateStyle: 'short'})
@@ -171,7 +169,7 @@ export function MicrosoftMailProvider({children}) {
 
                                     if (responsePhoto) {
                                         // add it to the message
-                                        message.userPhotoUrl = URL.createObjectURL(responsePhoto);
+                                        message.userPhotoUrl = window.URL.createObjectURL(responsePhoto);
                                         userPhotos[fromEmail] = message.userPhotoUrl;
                                     }
                                     // triggers a context update
@@ -201,7 +199,7 @@ export function MicrosoftMailProvider({children}) {
                 }
             }
         }
-    }, [loggedIn, state])
+    }, [loggedIn, state, client, dateFormater, fetchUnreadOnly, maxMessageCount, messages, setLoggedIn, timeFormater, unreadMessageCount, userPhotos])
 
     useEffect(() => {
         if (loggedIn && (state === 'load' || state === 'refresh')) {
@@ -226,7 +224,7 @@ export function MicrosoftMailProvider({children}) {
             if (!document.hidden) {
                 logger.debug('Microsoft mail starting interval');
 
-                timerId = setInterval(() => {
+                timerId = window.setInterval(() => {
                     setState('refresh');
                 }, refreshInterval);
             }
@@ -235,7 +233,7 @@ export function MicrosoftMailProvider({children}) {
         function stopInteval() {
             if (timerId) {
                 logger.debug('Microsoft mail stopping interval');
-                clearInterval(timerId)
+                window.clearInterval(timerId)
                 timerId = undefined;
             }
         }
@@ -258,7 +256,7 @@ export function MicrosoftMailProvider({children}) {
         return () => {
             document.removeEventListener('visibilitychange', visibilitychangeListener);
             if (timerId) {
-                clearInterval(timerId)
+                window.clearInterval(timerId)
             }
         }
     }, [loggedIn, setState]);
@@ -290,6 +288,3 @@ export function MicrosoftMailProvider({children}) {
     )
 }
 
-MicrosoftMailProvider.propTypes = {
-    children: PropTypes.object.isRequired
-}

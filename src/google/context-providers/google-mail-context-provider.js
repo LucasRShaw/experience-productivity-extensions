@@ -1,17 +1,11 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
-import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-
+import { useEffect, useMemo, useState } from 'react';
 import { useUserInfo } from '@ellucian/experience-extension-utils';
-
 import { useAuth } from '../../context-hooks/auth-context-hooks';
 import { Context } from '../../context-hooks/mail-context-hooks';
 import { refresh } from '../util/gmail';
-
 import log from 'loglevel';
 const logger = log.getLogger('Google');
-
 const refreshInterval = 60000;
 
 export function MailProvider({children}) {
@@ -118,8 +112,4 @@ export function MailProvider({children}) {
             {children}
         </Context.Provider>
     )
-}
-
-MailProvider.propTypes = {
-    children: PropTypes.object.isRequired
 }

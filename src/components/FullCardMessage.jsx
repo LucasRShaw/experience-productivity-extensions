@@ -1,15 +1,9 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Illustration, Typography } from '@ellucian/react-design-system/core';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import { colorTextNeutral600, fontWeightNormal, spacing30, spacing40, spacing50 } from '@ellucian/react-design-system/core/styles/tokens';
-
 import { useAuth } from '../context-hooks/auth-context-hooks';
-
 import SignOutButton from './SignOutButton.jsx';
 
 const styles = () => ({
@@ -63,11 +57,4 @@ function FullCardMessage({ classes, imageName, title, message }) {
     );
 }
 
-FullCardMessage.propTypes = {
-    classes: PropTypes.object.isRequired,
-    imageName: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired
-};
-
-export default withStyles(styles)(FullCardMessage);
+export default withStyles(FullCardMessage, styles, {name: 'FullCardMessage'});

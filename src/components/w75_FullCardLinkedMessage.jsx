@@ -1,16 +1,9 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Illustration, Typography, TextLink, Tooltip } from '@ellucian/react-design-system/core';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import { colorTextNeutral600, fontWeightNormal, spacing10, spacing30, spacing40, spacing50 } from '@ellucian/react-design-system/core/styles/tokens';
 import { Icon } from '@ellucian/ds-icons/lib';
-
 import { useAuth } from '../context-hooks/auth-context-hooks';
 // import { useIntl } from '../context-hooks/card-context-hooks';
-
-
 import SignOutButton from './SignOutButton.jsx';
 
 const styles = () => ({
@@ -86,16 +79,4 @@ function FullCardLinkedMessage({ classes, imageName, title, message, url, urlToo
     );
 }
 
-FullCardLinkedMessage.propTypes = {
-    classes: PropTypes.object.isRequired,
-    imageName: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    urlTooltip: PropTypes.string.isRequired,
-    composeUrl: PropTypes.string.isRequired,
-    composeUrlTooltip: PropTypes.string.isRequired,
-    composeLabel: PropTypes.string.isRequired
-};
-
-export default withStyles(styles)(FullCardLinkedMessage);
+export default withStyles(FullCardLinkedMessage, styles, {name: 'FullCardLinkedMessage'});

@@ -1,11 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
-import React from 'react';
-
 import { IMAGES } from '@ellucian/react-design-system/core';
-
 import { useComponents, useIntl } from '../context-hooks/card-context-hooks';
-
 import FullCardMessage from './FullCardMessage';
 
 function NoEvents() {

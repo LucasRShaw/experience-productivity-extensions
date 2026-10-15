@@ -1,7 +1,7 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
 module.exports = {
-    name: 'google-productivity-tools',
+    name: 'Google Productivity Tools',
     publisher: '',
     configuration: {
         client: [{

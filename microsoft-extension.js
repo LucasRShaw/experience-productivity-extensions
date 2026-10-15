@@ -1,8 +1,8 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
 module.exports = {
-    name: 'microsoft-productivity-tools',
-    publisher: '',
+    name: 'Microsoft Productivity Tools',
+    publisher: 'Northwest College',
     configuration: {
         client: [{
             key: 'aadRedirectUrl',
@@ -17,6 +17,11 @@ module.exports = {
         }, {
             key: 'aadTenantId',
             label: 'Azure AD Tenant ID',
+            type: 'text',
+            required: true
+        },{
+            key: 'maxMessageCount',
+            label: 'Max Message Count',
             type: 'text',
             required: true
         }]

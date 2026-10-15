@@ -1,15 +1,11 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-
+import { useEffect, useMemo, useState } from 'react';
 import { Context } from '../../context-hooks/auth-context-hooks';
 import { subscribe, unsubscribe, dispatch } from '../util/events';
 import { useCache, useCardInfo } from '@ellucian/experience-extension-utils';
 import { getTokenClient, initialize } from '../util/google-scripts';
-
 import log from 'loglevel';
 const logger = log.getLogger('Google');
-
 const cacheScope = 'google-productivity';
 const lastUserIdCacheKey = 'last-user-token';
 const cacheOptions = {
@@ -172,9 +168,4 @@ export function AuthProvider({ children, id = 'default'}) {
             {children}
         </Context.Provider>
     )
-}
-
-AuthProvider.propTypes = {
-    children: PropTypes.object.isRequired,
-    id: PropTypes.string
 }

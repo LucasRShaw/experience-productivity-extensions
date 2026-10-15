@@ -1,17 +1,12 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect, useMemo, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect, useMemo, Fragment } from 'react';
 import classnames from 'classnames';
-
 import { Divider, Illustration, IMAGES, Popper, Typography, Tooltip, TextLink } from '@ellucian/react-design-system/core';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import { colorBrandNeutral250, colorBrandNeutral300, fontWeightBold, fontWeightNormal, spacing30, spacing40, spacing50 } from '@ellucian/react-design-system/core/styles/tokens';
-
 import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 import { useIntl } from '../context-hooks/card-context-hooks';
 import { useAuth } from '../context-hooks/auth-context-hooks';
 import { useDrive } from '../context-hooks/drive-context-hooks';
-
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import NoDriveFiles from './w75_NoDriveFiles';
@@ -43,9 +38,7 @@ const styles = () => ({
             display: 'none'
         }
     },
-    'row0': {
-        paddingTop: '0px !important'
-    },
+    'row0': { paddingTop: '0px !important' },
     row: {
         paddingTop: spacing30,
         paddingBottom: spacing30,
@@ -55,11 +48,7 @@ const styles = () => ({
             backgroundColor: colorBrandNeutral250
         }
     },
-    fileBox: {
-        display: 'flex',
-        padding: '0 9px',
-        alignItems: 'center'
-    },
+    fileBox: { display: 'flex', padding: '0 9px', alignItems: 'center' },
     fileNameBox: {
         flex: '1 1 auto',
         display: 'flex',
@@ -71,14 +60,8 @@ const styles = () => ({
         marginTop: spacing30,
         marginRight: spacing40
     },
-    fileIcon16: {
-        width: '16px',
-        height: '16px'
-    },
-    fileIcon24: {
-        width: '24px',
-        height: '24px'
-    },
+    fileIcon16: { width: '16px', height: '16px' },
+    fileIcon24: { width: '24px', height: '24px' },
     fileName: {
         display: '-webkit-box',
         '-webkit-line-clamp': '2',
@@ -86,10 +69,7 @@ const styles = () => ({
         overflow: 'hidden',
         fontWeight: fontWeightBold
     },
-    fileNamePopper: {
-        paddingLeft: spacing50,
-        paddingRight: spacing50
-    },
+    fileNamePopper: { paddingLeft: spacing50, paddingRight: spacing50 },
     modified: {
         width: '100%',
         display: '-webkit-box',
@@ -102,17 +82,9 @@ const styles = () => ({
         marginBottom: '0px',
         backgroundColor: colorBrandNeutral300
     },
-    fontWeightNormal: {
-        fontWeight: fontWeightNormal
-    },
-    devCard: {
-        marginLeft: spacing40,
-        marginRight: spacing40,
-        marginBottom: spacing40
-    },
-    devButton: {
-        marginBottom: spacing30
-    },
+    fontWeightNormal: { fontWeight: fontWeightNormal },
+    devCard: { marginLeft: spacing40, marginRight: spacing40, marginBottom: spacing40 },
+    devButton: { marginBottom: spacing30 },
     logoutBox: {
         display: 'flex',
         flexDirection: 'column',
@@ -127,26 +99,20 @@ const styles = () => ({
 function Drive({ classes }) {
     const { setErrorMessage, setLoadingStatus } = useExtensionControl();
     const { locale } = useUserInfo();
-
     const { intl } = useIntl();
-
     const { error: authError, login, loggedIn, logout, state: authState } = useAuth();
     const { error: driveError, files } = useDrive();
-
     const [displayState, setDisplayState] = useState('init');
-
     const [popperContext, setPopperContext] = useState({ overflowedFileIds: []});
-
+    
     const fileDateFormater = useMemo(() => {
         return new Intl.DateTimeFormat(locale, { month: 'short', day: '2-digit' })
     }, [locale]);
-
     const fileDateFormaterWithYear = useMemo(() => {
         return new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short', day: '2-digit' })
     }, [locale]);
 
     const [contentNode, setContentNode] = useState();
-
     const contentRef = (node) => {
         setContentNode(node);
     }
@@ -185,11 +151,11 @@ function Drive({ classes }) {
         } else if (loggedIn) {
             setDisplayState('loggedIn');
         }
-    }, [ authError, authState, driveError, files, loggedIn ])
+    }, [ authError, authState, driveError, files, loggedIn, intl, setErrorMessage ])
 
     useEffect(() => {
         setLoadingStatus(displayState !== 'filesLoaded' && displayState !== 'loggedOut');
-    }, [displayState])
+    }, [displayState, setLoadingStatus])
 
     useEffect(() => {
         if (contentNode) {
@@ -307,8 +273,4 @@ function Drive({ classes }) {
     }
 }
 
-Drive.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Drive);
+export default withStyles(Drive, styles, {name: 'Drive'});

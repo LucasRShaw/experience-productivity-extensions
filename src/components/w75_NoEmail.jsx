@@ -1,9 +1,6 @@
 import React from 'react';
-
 import { IMAGES } from '@ellucian/react-design-system/core';
-
 import { useComponents, useIntl } from '../context-hooks/card-context-hooks';
-
 import FullCardLinkedMessage from './w75_FullCardLinkedMessage';
 
 function NoEmails() {

@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'Microsoft-Outlook-Card',
-    publisher: '',
+    name: 'Microsoft Outlook Card',
+    publisher: 'Northwest College',
     configuration: {
         client: [{
             key: 'aadRedirectUrl',

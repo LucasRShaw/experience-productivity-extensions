@@ -14,9 +14,7 @@ const microsoftScopes = [
     'mail.read',
     'mail.read.shared',
     'user.read',
-    'user.readbasic.all',
-    'calendars.read',
-    'calendars.read.shared'
+    'user.readbasic.all'
 ];
 
 export function authorityUrl(tenantId) {
@@ -39,7 +37,7 @@ const lastLoginCacheOptions = {
 function getCurrentExperienceUserId({cacheStoreItem}) {
     // store something to ensure experience user is in local storage
     cacheStoreItem({key: 'store', data: 'something'});
-    return localStorage.getItem('experience-user-id');
+    return window.localStorage.getItem('experience-user-id');
 }
 
 export async function login({aadClientId, aadRedirectUrl, aadTenantId, cacheStoreItem, msalClient}) {
@@ -147,7 +145,6 @@ export async function acquireToken({aadClientId, aadTenantId, cacheStoreItem, ms
                 try {
                     const response = await msalClient.ssoSilent(acquireRequest);
                     const {accessToken, account: responseAccount} = response || {};
-                    // eslint-disable-next-line max-depth
                     if (accessToken && responseAccount) {
                         logger.debug('ssoSilent success for', responseAccount.username);
                         msalClient.setActiveAccount(responseAccount);
@@ -208,7 +205,7 @@ export function initializeAuthEvents({setState}) {
 	window.addEventListener('message', onEllucianMicrosoftAuthEvent);
 }
 
-export function initializeMicrosoft({aadClientId, aadRedirectUrl, aadTenantId}) {
+export async function initializeMicrosoft({aadClientId, aadRedirectUrl, aadTenantId}) {
     const msalConfig = {
         auth: {
             authority: authorityUrl(aadTenantId),
@@ -219,7 +216,7 @@ export function initializeMicrosoft({aadClientId, aadRedirectUrl, aadTenantId}) 
         }
     };
 
-    const msalClient = new PublicClientApplication(msalConfig);
+    const msalClient = await PublicClientApplication.createPublicClientApplication(msalConfig);
 
     return msalClient;
 }

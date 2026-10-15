@@ -1,8 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-// eslint-disable-next-line camelcase
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { unstable_batchedUpdates } from 'react-dom';
 
 import { getFileTypeIconUriByExtension } from '@microsoft/mgt-components/dist/es6/styles/fluent-icons';
@@ -93,7 +91,7 @@ export function MicrosoftDriveProvider({children}) {
                 }
             }
         }
-    }, [loggedIn, state])
+    }, [loggedIn, state, client, files, setLoggedIn])
 
     useEffect(() => {
         if (loggedIn && (state === 'load' || state === 'refresh')) {
@@ -114,7 +112,7 @@ export function MicrosoftDriveProvider({children}) {
             if (!document.hidden) {
                 logger.debug('Microsoft drive starting interval');
 
-                timerId = setInterval(() => {
+                timerId = window.setInterval(() => {
                     setState('refresh');
                 }, refreshInterval);
             }
@@ -123,7 +121,7 @@ export function MicrosoftDriveProvider({children}) {
         function stopInteval() {
             if (timerId) {
                 logger.debug('Microsoft drive stopping interval');
-                clearInterval(timerId)
+                window.clearInterval(timerId)
                 timerId = undefined;
             }
         }
@@ -146,7 +144,7 @@ export function MicrosoftDriveProvider({children}) {
         return () => {
             document.removeEventListener('visibilitychange', visibilitychangeListener);
             if (timerId) {
-                clearInterval(timerId)
+                window.clearInterval(timerId)
             }
         }
     }, [loggedIn, setState]);
@@ -172,8 +170,4 @@ export function MicrosoftDriveProvider({children}) {
             {children}
         </Context.Provider>
     )
-}
-
-MicrosoftDriveProvider.propTypes = {
-    children: PropTypes.object.isRequired
 }

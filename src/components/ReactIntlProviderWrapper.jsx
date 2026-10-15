@@ -1,31 +1,45 @@
-// Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { injectIntl, IntlProvider } from 'react-intl';
-import PropTypes from 'prop-types';
+import { Skeleton } from '@ellucian/react-design-system/core';
 import { getMessages } from '../i18n/intlUtility';
 
-export function withIntl(WrappedComponent) {
-    let InjectedComponent;
+export const withIntl = (WrappedComponent) => {
+    const InjectedComponent = injectIntl(WrappedComponent);
 
-    class WithIntl extends React.Component {
-        constructor(props) {
-            super(props);
-            InjectedComponent = injectIntl(WrappedComponent);
-        }
-        render() {
-            const { userInfo: { locale } } = this.props;
-
+    const WithIntl = (props) => {
+        const locale = props.userInfo?.locale || 'en';
+        const [messages, setMessages] = useState(null);
+        useEffect(() => {
+            let cancelled = false;
+            const loadMessages = async () => {
+                const msgs = await getMessages(locale);
+                if (!cancelled) {
+                    setMessages(msgs);
+                }
+            };
+            loadMessages();
+            return () => {
+                cancelled = true;
+            };
+        }, [locale]);
+        if (!messages) {
+            // Small paragraph-style skeleton (a couple of short lines)
             return (
-                <IntlProvider locale={locale} messages={getMessages(locale)}>
-                    <InjectedComponent {...this.props} />
-                </IntlProvider>
+                <div style={{ padding: '4px 0' }}>
+                    <Skeleton paragraph={{width: "70%", height:'1.1rem'}} />
+                    <Skeleton paragraph={{width: "70%", height:'1.0rem'}} />
+                </div>
             );
         }
-    }
-    WithIntl.propTypes = {
-        userInfo: PropTypes.object
+
+        return (
+            <IntlProvider locale={locale} messages={messages}>
+                <InjectedComponent {...props} />
+            </IntlProvider>
+        );
     };
-    WithIntl.displayName = `WithIntl(${WrappedComponent.displayName})`;
+
+    WithIntl.displayName = `WithIntl(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
     return WithIntl;
-}
+};

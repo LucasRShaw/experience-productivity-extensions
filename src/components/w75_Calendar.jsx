@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-
+/* eslint-disable no-unused-vars */
+import { Fragment, useEffect, useState } from 'react';
 import { Illustration, IMAGES, List, ListItem, ListItemText, TextLink, Tooltip, Typography} from '@ellucian/react-design-system/core';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import {
@@ -10,27 +8,25 @@ import {
     spacing30, spacing40
 } from '@ellucian/react-design-system/core/styles/tokens';
 import { Icon } from '@ellucian/ds-icons/lib';
-
 import { useExtensionControl } from '@ellucian/experience-extension-utils';
-
 import { useIntl } from '../context-hooks/card-context-hooks.js';
 import { useAuth } from '../context-hooks/auth-context-hooks';
 import { useCalendar } from '../context-hooks/calendar-context-hooks';
-
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import NoEvents from './w75_NoEvents';
-
 import { pickAvatarColor } from '../util/mail.js';
 import { format, parseJSON, addMinutes, startOfDay } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+// import dateFnsTz from 'date-fns-tz';
+import { TZDate } from '@date-fns/tz';
 
-const dateInTimeZone = (dateStr, tz) => utcToZonedTime(dateStr, tz);
+// const { utcToZonedTime }  = dateFnsTz;
+const parseUTC = (dateStr) => parseJSON(dateStr);
+const dateInTimeZone = (dateStr, tz) => new TZDate(dateStr, tz);
 const headerFmt = "EEEE, MMMM do, uuuu";
 const timeFmt = "hh:mm a";
 const shortDtFmt = "MMM do";
 const idDtFmt = "yyyyMMdd";
-
 
 const styles = () => ({
     card: {
@@ -154,6 +150,9 @@ const headerDateFormat = (d, tz, allDay, allDayOffsetMinutes = 0) => {
     return allDay ? format(addMinutes(startOfDay(dateInTimeZone(d, tz)), allDayOffsetMinutes), headerFmt) : format(parseJSON(d), headerFmt);
 }
 const idDateFormat = (d, tz, allDay, allDayOffsetMinutes = 0) => {
+    // const utcParsedDt = parseUTC(d);
+    // const utcParseOffsetDt = addMinutes(startOfDay(parseUTC(d)), allDayOffsetMinutes);
+    // const utcParseTZOffsetDt = addMinutes(startOfDay(dateInTimeZone(d, tz)), allDayOffsetMinutes);
     // return allDay ? format(utcParseOffsetDt, idDtFmt) : format(utcParsedDt, idDtFmt);
     return allDay ? format(addMinutes(startOfDay(dateInTimeZone(d, tz)), allDayOffsetMinutes), idDtFmt) : format(parseJSON(d));
 }
@@ -205,11 +204,11 @@ function Agenda({ classes }) {
         } else if (eventState && eventState.error) {
             setDisplayState('error');
         }
-    }, [ authError, authState, loggedIn, eventError, eventState, events ])
+    }, [ authError, authState, loggedIn, eventError, eventState, events, intl, setErrorMessage ])
 
     useEffect(() => {
         setLoadingStatus(displayState === 'loading');
-    }, [displayState, eventState])
+    }, [displayState, eventState, setLoadingStatus])
 
     const scrollToTime = new Date();
     scrollToTime.setHours(7);
@@ -232,10 +231,13 @@ function Agenda({ classes }) {
                                     calendarEventLink,
                                     color,
                                     eventId: id,
+                                    bodySnippet,
                                     isAccepted,
                                     isTentative,
                                     fromEmail,
+                                    fromInitials,
                                     fromName,
+                                    hasAttachment,
                                     location,
                                     status
                             } = item;
@@ -277,7 +279,7 @@ function Agenda({ classes }) {
                                 )}
                                 <ListItem divider button disableGutters key={`event_${id}`} style={{ paddingLeft: '.25rem' }}
                                         component='a' href={calendarEventLink} >
-                                    <ListItemText key={`eventTimeStatus_${id}`} button style={{ borderRight: '.25rem solid ' + color, textAlign: 'center', minWidth: '70px', maxWidth: '70px' }}>
+                                    <ListItemText key={`eventTimeStatus_${id}`} button style={{ borderRight: '.25rem solid ' + color, textAlign: 'center', minWidth: '70px', maxWidth: '75px' }}>
                                         <Typography key={`eventTimeStatus_${id}_startTime`} id={`eventTimeStatus_${id}_startTime`} variant={"body2"}>
                                             {startTime}
                                         </Typography>
@@ -317,7 +319,7 @@ function Agenda({ classes }) {
                             </Fragment>
                         )})}
                     </List>
-                    {defaultAllowCompose && (<div className={classes.logoutBox}>
+                    { defaultAllowCompose && (<div className={classes.logoutBox}>
                         <Tooltip title={intl.formatMessage({id: 'outlookNewEventLinkTxt'})}>
                             <Typography className={classes.row} component='div' variant={'body'}>
                                 <TextLink className={classes.unread} href={intl.formatMessage({id: 'outlookNewEventURL'})} target='_blank'>
@@ -358,14 +360,9 @@ function Agenda({ classes }) {
             </div>
         );
     } else {
-        // eslint-disable-next-line no-warning-comments
         // TODO add error case
         return null;
     }
 }
 
-Agenda.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Agenda);
+export default withStyles(Agenda, styles, {name: 'Agenda'});

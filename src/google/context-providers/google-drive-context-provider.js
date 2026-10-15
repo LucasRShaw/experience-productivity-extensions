@@ -1,22 +1,16 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // eslint-disable-next-line camelcase
 import { unstable_batchedUpdates } from 'react-dom';
-
 import { useAuth } from '../../context-hooks/auth-context-hooks';
 import { Context } from '../../context-hooks/drive-context-hooks';
 import { getDriveFiles } from '../util/google-drive';
-
 import log from 'loglevel';
 const logger = log.getLogger('Google');
-
 const refreshInterval = 60000;
 
 export function DriveProvider({children}) {
     const { user, loggedIn, setLoggedIn } = useAuth();
-
     const [error, setError] = useState(false);
     const [state, setState] = useState('load');
     const [files, setFiles] = useState();
@@ -132,8 +126,4 @@ export function DriveProvider({children}) {
             {children}
         </Context.Provider>
     )
-}
-
-DriveProvider.propTypes = {
-    children: PropTypes.object.isRequired
 }

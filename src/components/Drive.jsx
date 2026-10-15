@@ -1,19 +1,14 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
-
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect, useMemo, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect, useMemo, Fragment } from 'react';
 import classnames from 'classnames';
-
 import { Divider, Illustration, IMAGES, Popper, Typography } from '@ellucian/react-design-system/core';
 import { withStyles } from '@ellucian/react-design-system/core/styles';
 import { colorBrandNeutral250, colorBrandNeutral300, fontWeightBold, fontWeightNormal, spacing30, spacing40, spacing50 } from '@ellucian/react-design-system/core/styles/tokens';
-
 import { useExtensionControl, useUserInfo } from '@ellucian/experience-extension-utils';
 import { useIntl } from '../context-hooks/card-context-hooks';
 import { useAuth } from '../context-hooks/auth-context-hooks';
 import { useDrive } from '../context-hooks/drive-context-hooks';
-
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 import NoDriveFiles from './NoDriveFiles';
@@ -297,8 +292,4 @@ function Drive({ classes }) {
     }
 }
 
-Drive.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Drive);
+export default withStyles(Drive, styles, {name: 'Drive'});

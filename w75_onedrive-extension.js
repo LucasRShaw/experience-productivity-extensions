@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'Microsoft-OneDrive-Cards',
-    publisher: '',
+    name: 'Microsoft OneDrive Cards',
+    publisher: 'Northwest College',
     configuration: {
         client: [{
             key: 'aadRedirectUrl',

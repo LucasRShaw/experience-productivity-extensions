@@ -1,7 +1,6 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // eslint-disable-next-line camelcase
 import { unstable_batchedUpdates } from 'react-dom';
 
@@ -256,8 +255,4 @@ export function MicrosoftMailProvider({children}) {
             {children}
         </Context.Provider>
     )
-}
-
-MicrosoftMailProvider.propTypes = {
-    children: PropTypes.object.isRequired
 }

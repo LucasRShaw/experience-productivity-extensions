@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'Microsoft-Outlook-Calendar',
-    publisher: '',
+    name: 'Microsoft Outlook Calendar Card',
+    publisher: 'NorthwestCollege',
     configuration: {
         client: [{
             key: 'aadRedirectUrl',
@@ -37,5 +37,11 @@ module.exports = {
         title: 'NWC Outlook Calendar',
         displayCardType: 'NWC Outlook Calendar',
         description: 'This card displays Office 365 Calendar.'
+    },{
+        type: 'W75_OutlookCalendarEventCreatorCard',
+        source: './src/microsoft/cards/w75_OutlookCalendarEventCreatorCard',
+        title: 'NWC Outlook Calendar Event Creator',
+        displayCardType: 'NWC Outlook Calendar Event Creator',
+        description: 'This card Adds Events to Office 365 Calendar (when I get it working).'
     }]
 }

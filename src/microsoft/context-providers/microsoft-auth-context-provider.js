@@ -1,13 +1,9 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-
+import { useEffect, useMemo, useState } from 'react';
 import { useCache, useCardInfo } from '@ellucian/experience-extension-utils';
 import { Context } from '../../context-hooks/auth-context-hooks';
-
 import { acquireToken, initializeAuthEvents, initializeMicrosoft, initializeGraphClient, login, logout } from '../util/auth';
-
 import log from 'loglevel';
 const logger = log.getLogger('Microsoft');
 
@@ -27,17 +23,16 @@ export function MicrosoftAuthProvider({ children }) {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [state, setState] = useState('initialize');
 
-	// eslint-disable-next-line complexity
 	useEffect(() => {
         switch( state ) {
             case 'initialize':
                 if (aadClientId && aadRedirectUrl && aadTenantId && !msalClient ) {
-                    const msalClient = initializeMicrosoft({aadClientId, aadRedirectUrl, aadTenantId, setMsalClient});
-                    setMsalClient(() => msalClient);
-                    initializeAuthEvents({setState});
+                    (async () => { 
+                        const msalClient = await initializeMicrosoft({aadClientId, aadRedirectUrl, aadTenantId, setMsalClient});
+                        setMsalClient(() => msalClient);
+                        initializeAuthEvents({setState});
 
-                    // check if already logged in
-                    (async () => {
+                        // check if already logged in
                         if (await acquireToken({aadClientId, aadTenantId, cacheGetItem, cacheStoreItem, msalClient, trySsoSilent: true})) {
                             setState('do-graph-initialize');
                         } else {
@@ -85,6 +80,7 @@ export function MicrosoftAuthProvider({ children }) {
                 setState('ready');
                 break;
             default:
+                break;
         }
 	}, [ aadClientId, aadRedirectUrl, aadTenantId, cacheGetItem, cacheStoreItem, msalClient, state ]);
 
@@ -98,7 +94,7 @@ export function MicrosoftAuthProvider({ children }) {
 			setLoggedIn,
 			state: state === 'ready' || state === 'do-logout' ? 'ready' : 'not-ready'
 		}
-	}, [graphClient, error, loggedIn, login, state]);
+	}, [graphClient, error, loggedIn, state]);
 
     useEffect(() => {
         logger.debug('MicrosoftAuthProvider mounted');
@@ -112,8 +108,4 @@ export function MicrosoftAuthProvider({ children }) {
 			{children}
 		</Context.Provider>
 	)
-}
-
-MicrosoftAuthProvider.propTypes = {
-	children: PropTypes.object.isRequired
 }

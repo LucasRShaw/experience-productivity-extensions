@@ -1,12 +1,8 @@
 // Copyright 2021-2023 Ellucian Company L.P. and its affiliates.
 
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-
+import{ useEffect, useMemo } from 'react';
 import { Context } from '../../context-hooks/card-context-hooks';
-
 import buttonImage from '../images/microsoft-logo.svg';
-
 import log from 'loglevel';
 const logger = log.getLogger('Microsoft');
 
@@ -44,9 +40,4 @@ export function MicrosoftCardProvider({children, intl}) {
             {children}
         </Context.Provider>
     )
-}
-
-MicrosoftCardProvider.propTypes = {
-    children: PropTypes.object.isRequired,
-    intl: PropTypes.object.isRequired
 }
